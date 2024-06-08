@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Location</title>
+    <a href="sms:/+918847080824/?Reached=/reached at here/">Link</a>
+</head>
+
+
+<body>
+    <button onclick="getLocation()">Get Location</button>
+    <p id="demo"></p>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var x = document.getElementById("demo");
+    let lat;
+    let long;
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+
+    function showPosition(position) {
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
+        $.ajax({
+            type: 'get',
+            url: `https://api.opencagedata.com/geocode/v1/json?q=${lat}%2C${long}&key=3f66deeb032c4b92be0bfe2f305acf97`,
+            data: '',
+            success: function (resp) {
+                console.log('resp', resp.results[0].formatted)
+                let formattedAddr = resp.results[0].formatted;
+                alert('Your location:- ' + formattedAddr)
+            }
+        })
+    }
+
+
+    // setInterval(() => {
+    //     getLocation()
+    // }, 2000);
+</script>
+</html>
+
